@@ -10,7 +10,7 @@ import { Hero } from '../hero';
 import { HeroStateFacade } from '../ngxs/hero-feature/hero.facade';
 
 interface HeroDetailComponentState {
-  hero: Hero;
+  hero: Hero | undefined;
 }
 
 @Component({
@@ -33,9 +33,10 @@ export class HeroDetailComponent {
     public configService: ConfigService
   ) {
     const hero$ = this.route.paramMap.pipe(
-      switchMap(params => this.heroState.hero$(parseInt(params.get('id'), 10)))
+      switchMap(params => this.heroState.hero$(parseInt(params.get('id')+'', 10)))
     );
     this.state.connect('hero', hero$);
+
     const saveEffect$ = this.save$.pipe(
       withLatestFrom(this.change$),
       map(([oldHero, change]) => ({ ...oldHero, ...change })),
@@ -49,7 +50,9 @@ export class HeroDetailComponent {
     this.location.back();
   }
 
-  save(hero: Hero): void {
-    this.save$.next(hero);
+  save(hero: Hero | undefined): void {
+    if(hero) {
+      this.save$.next(hero);
+    }
   }
 }

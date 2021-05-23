@@ -95,7 +95,7 @@ export class HeroService {
     );
   }
 
-  trackByHero(h: Hero): number {
+  trackByHero(idx: number, h: Hero): number {
     return h.id;
   }
 

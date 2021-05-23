@@ -10,7 +10,7 @@ export class HeroStateFacade {
   search$ = this.store.select(HeroesSelectors.props.search);
   heroes$ = this.store.select(HeroesSelectors.props.heroes);
 
-  hero$ = (id: number): Observable<Hero> =>
+  hero$ = (id: number): Observable<Hero | undefined> =>
     this.store.select(HeroesSelectors.getHeroesById(id));
 
   dispatchFetchHero() {

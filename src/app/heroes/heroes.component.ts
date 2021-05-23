@@ -22,7 +22,7 @@ const initHeroesComponentState: Partial<HeroesComponentState> = {
   providers: [RxState]
 })
 export class HeroesComponent {
-  heroes: Hero[];
+  heroes: Hero[] = [];
 
   readonly heroes$: Observable<Hero[]> = this.state.select('heroes');
   readonly add = new Subject<string>();

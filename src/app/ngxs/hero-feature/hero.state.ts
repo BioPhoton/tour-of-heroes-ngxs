@@ -22,7 +22,8 @@ export interface HeroStateModel {
 export class HeroState {
   @Action(FetchHero)
   private fetchHero(ctx: StateContext<HeroStateModel>) {
-    return this.heroService.getHeroes().pipe(tap(heroes => {
+    return this.heroService.getHeroes().pipe(
+      tap(heroes => {
       ctx.setState(patch({
         heroes
       }));
@@ -45,7 +46,7 @@ export class HeroState {
     return this.heroService.deleteHero(action.hero).pipe(tap(() => {
       ctx.setState(
         patch({
-          heroes: removeItem((h: Hero) => h.id === action.hero.id)
+          heroes: removeItem((h: Hero | undefined) => h?.id === action.hero.id)
         })
       );
     }));
@@ -56,7 +57,7 @@ export class HeroState {
     return this.heroService.updateHero(action.hero).pipe(tap(() => {
       ctx.setState(
         patch({
-          heroes: updateItem((h: Hero) => h.id === action.hero.id, action.hero)
+          heroes: updateItem((h: Hero | undefined) => h?.id === action.hero.id, action.hero)
         })
       );
     }));
